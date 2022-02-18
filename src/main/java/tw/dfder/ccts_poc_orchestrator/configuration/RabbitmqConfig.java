@@ -9,8 +9,6 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.swing.plaf.SpinnerUI;
-
 /**
  * @Author Df
  * @Comment rabbitMQ for spring boot configuration
@@ -18,7 +16,7 @@ import javax.swing.plaf.SpinnerUI;
 
 @Configuration
 @EnableRabbit
-public class rabbitmqConfig {
+public class RabbitmqConfig {
     // apply the exchange and related setting when this service on.
 
     public static final String EXCHANG_ORCHESTRATOR = "EXCHANGE_CCTS_ORCHESTRATOR";
@@ -38,7 +36,7 @@ public class rabbitmqConfig {
     public static final String BINDINGKEY_PAYMENT_REQUEST = "payment.req.#";
     public static final String BINDINGKEY_PAYMENT_RESPONSE = "payment.res.#";
 
-    public static final String BINDINGKEY_UPDATEPOINT_RESQUEST = "updatepoint.req.#";
+    public static final String BINDINGKEY_UPDATEPOINT_REQUEST = "updatepoint.req.#";
     public static final String BINDINGKEY_UPDATEPOINT_RESPONSE = "updatepoint.res.#";
 
     public static final String BINDINGKEY_LOGGING_REQUEST = "logging.req.#";
@@ -117,7 +115,7 @@ public class rabbitmqConfig {
     public Binding bindQueueUpdatePointsReq(){
         return BindingBuilder.bind(queueUpdatePointsRequest())
                 .to(EXCHANGE_CCTS())
-                .with(BINDINGKEY_UPDATEPOINT_RESQUEST)
+                .with(BINDINGKEY_UPDATEPOINT_REQUEST)
                 .noargs();
     }
 
