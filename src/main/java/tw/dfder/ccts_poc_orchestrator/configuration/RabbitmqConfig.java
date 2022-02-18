@@ -43,6 +43,13 @@ public class RabbitmqConfig {
     public static final String BINDINGKEY_LOGGING_RESPONSE = "logging.res.#";
 
 
+
+    // routing key prefix
+    public static final String RoutingKey_payment = "payment";
+    public static final String RoutingKey_updatePoints = "updatePointes";
+    public static final String RoutingKey_loggging = "logging";
+
+
     // 宣告topic模式的exchange
     @Bean
     public Exchange EXCHANGE_CCTS(){
