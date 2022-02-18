@@ -1,4 +1,4 @@
-package tw.dfder.ccts_poc_orchestrator.controller;
+package tw.dfder.ccts_poc_orchestrator.configuration;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
