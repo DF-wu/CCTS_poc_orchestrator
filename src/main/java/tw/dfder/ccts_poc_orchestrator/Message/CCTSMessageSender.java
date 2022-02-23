@@ -1,22 +1,26 @@
-package tw.dfder.ccts_poc_orchestrator;
+package tw.dfder.ccts_poc_orchestrator.Message;
 
 
+import com.google.gson.Gson;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import tw.dfder.ccts_poc_orchestrator.Entity.MessageEnvelope;
 import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 
-@Service
+@EnableRabbit
 public class CCTSMessageSender {
     private final RabbitTemplate rabbitTemplate;
+    private final Gson gson;
 
     @Autowired
-    public CCTSMessageSender(RabbitTemplate rabbitTemplate) {
+    public CCTSMessageSender(RabbitTemplate rabbitTemplate, Gson gson) {
         this.rabbitTemplate = rabbitTemplate;
+        this.gson = gson;
     }
 
-    public boolean sendRequestMessage(String message, String destination, String routingKey, String pactName){
+    public boolean sendRequestMessage(MessageEnvelope message, String destination, String routingKey, String pactName){
 //        routingKey : routing key defined in RabbitmqConfig.java
 //        destination is the corresponding service name
 //        pactName is what the contract of the message belonging for
