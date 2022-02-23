@@ -30,6 +30,7 @@ public class Orchestrator {
     @PostMapping("/start")
     public ResponseEntity<?> startANewSaga(@RequestBody Map<String, String> body) {
         PaymentMessageEnvelope envelope = new PaymentMessageEnvelope();
+        envelope.setMethod("pay");
         envelope.setPaymentId(UUID.randomUUID().toString());
         envelope.setBuyerId(UUID.randomUUID().toString());
         envelope.setValid(Boolean.parseBoolean(body.get("isValid")));
@@ -37,7 +38,7 @@ public class Orchestrator {
 
         sender.sendMessage(
                 gson.toJson(envelope),
-                ServiceConfig.destinations.get(0),
+                "paymentService",
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
                 ServiceConfig.serviceName
         );
