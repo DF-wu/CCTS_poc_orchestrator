@@ -16,16 +16,19 @@ public class CCTSMessageSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public boolean sendRequestMessage(String message, String destination){
+    public boolean sendRequestMessage(String message, String destination, String routingKey, String pactName){
+//        routingKey : routing key defined in RabbitmqConfig.java
+//        destination is the corresponding service name
+//        pactName is what the contract of the message belonging for
         try {
             rabbitTemplate.convertAndSend(
                     RabbitmqConfig.EXCHANG_ORCHESTRATOR,
-                    destination,
+                    routingKey,
                     message,
                     m -> {
                         m.getMessageProperties().getHeaders().put("source", ServiceConfig.serviceName);
-                        m.getMessageProperties().getHeaders().put("destination", ServiceConfig.correspondingPact);
-                        m.getMessageProperties().getHeaders().put("pact", "pact of " + destination);
+                        m.getMessageProperties().getHeaders().put("destination", destination );
+                        m.getMessageProperties().getHeaders().put("pact", pactName);
                         return m;
                     }
             );
