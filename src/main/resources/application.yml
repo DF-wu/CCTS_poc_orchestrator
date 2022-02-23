@@ -3,9 +3,10 @@ server:
 serviceInfo:
   name: "Orchestrator"
   destinations:
-    paymentService : "paymentService"
-    updatePointService : "updatePointService"
-    loggingService : "loggingService"
+    - paymentService
+    - updatePointService
+    - loggingService
+  pact: "payment_request"
 
 spring:
   data:
