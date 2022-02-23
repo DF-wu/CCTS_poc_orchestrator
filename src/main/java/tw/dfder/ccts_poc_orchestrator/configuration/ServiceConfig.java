@@ -20,6 +20,6 @@ public class ServiceConfig {
 //    public static String correspondingPact;
 
     @Value("${serviceInfo.destinations}")
-    public static Map<String, String> destinations;
+    public static List<String> destinations;
 
 }
