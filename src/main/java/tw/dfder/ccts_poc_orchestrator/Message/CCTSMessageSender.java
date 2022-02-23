@@ -12,18 +12,17 @@ import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 @EnableRabbit
 public class CCTSMessageSender {
     private final RabbitTemplate rabbitTemplate;
-    private final Gson gson;
 
     @Autowired
     public CCTSMessageSender(RabbitTemplate rabbitTemplate, Gson gson) {
         this.rabbitTemplate = rabbitTemplate;
-        this.gson = gson;
     }
 
-    public boolean sendRequestMessage(MessageEnvelope message, String destination, String routingKey, String pactName){
+    public boolean sendRequestMessage(String message, String destination, String routingKey, String pactName){
 //        routingKey : routing key defined in RabbitmqConfig.java
 //        destination is the corresponding service name
 //        pactName is what the contract of the message belonging for
+
         try {
             rabbitTemplate.convertAndSend(
                     RabbitmqConfig.EXCHANG_ORCHESTRATOR,
