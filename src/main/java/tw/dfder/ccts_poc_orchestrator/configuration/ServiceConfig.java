@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * To load application.yml setting
@@ -14,11 +15,11 @@ import java.util.List;
 public class ServiceConfig {
     @Value("${serviceInfo.name}")
     public static String serviceName;
-
-    @Value("${serviceInfo.pact}")
-    public static String correspondingPact;
+//
+//    @Value("${serviceInfo.pact}")
+//    public static String correspondingPact;
 
     @Value("${serviceInfo.destinations}")
-    public static List<String> destinations;
+    public static Map<String, String> destinations;
 
 }
