@@ -1,5 +1,4 @@
 package tw.dfder.ccts_poc_orchestrator.Entity;
-    
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
