@@ -45,9 +45,14 @@ public class RabbitmqConfig {
 
 
     // routing key prefix
-    public static final String RoutingKey_payment = "payment";
-    public static final String RoutingKey_updatePoints = "updatePointes";
-    public static final String RoutingKey_loggging = "logging";
+    public static final String ROUTING_PAYMENT_REQUEST = "payment.req";
+    public static final String ROUTING_PAYMENT_RESPONSE = "payment.res";
+
+    public static final String ROUTING_UPDATEPOINT_REQUEST = "updatepoint.req";
+    public static final String ROUTING_UPDATEPOINT_RESPONSE = "updatepoint.res";
+
+    public static final String ROUTING_LOGGING_REQUEST = "logging.req";
+    public static final String ROUTING_LOGGING_RESPONSE = "logging.res";
 
 
     // 宣告topic模式的exchange
