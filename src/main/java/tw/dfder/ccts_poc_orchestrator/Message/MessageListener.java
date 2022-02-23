@@ -62,7 +62,7 @@ public class MessageListener {
 
 
     @RabbitListener(queues = {
-            RabbitmqConfig.QUEUE_PAYMENT_RESPONSE
+            RabbitmqConfig.QUEUE_UPDATEPOINT_RESPONSE
     })
     public void receivedMessageFromPointService(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
         UpdatePointsEnvelope updatePointsEnvelope = gson.fromJson(msg, UpdatePointsEnvelope.class);
@@ -85,7 +85,20 @@ public class MessageListener {
         }else{
             System.out.println("Fail!! " + logMessageEnvelope);
         }
+    }
+
+
+    @RabbitListener(queues = {
+            RabbitmqConfig.QUEUE_LOGGGING_RESPONSE
+    })
+    public void receivedMessageFromLoggingService(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
+        LogMessageEnvelope logMessageEnvelope = gson.fromJson(msg, LogMessageEnvelope.class);
+        ch.basicAck(deliveryTag, false);
+        System.out.println("receive msg from Logging service" + logMessageEnvelope);
 
 
     }
+
+
+
 }
