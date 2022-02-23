@@ -5,10 +5,12 @@ import com.google.gson.Gson;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 
 @EnableRabbit
+@Service("CCTSMessageSender")
 public class CCTSMessageSender {
     private final RabbitTemplate rabbitTemplate;
 
@@ -17,7 +19,7 @@ public class CCTSMessageSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public boolean sendRequestMessage(String message, String destination, String routingKey, String pactName){
+    public boolean sendMessage(String message, String destination, String routingKey, String pactName){
 //        routingKey : routing key defined in RabbitmqConfig.java
 //        destination is the corresponding service name
 //        pactName is what the contract of the message belonging for
