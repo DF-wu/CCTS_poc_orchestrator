@@ -15,10 +15,12 @@ public class UpdatePointsEnvelope {
     private String BuyerId;
     @Field
     private int points;
-
-
     @Field
     private boolean isValid;
+
+    // "request" , "response"
+    @Field
+    private String communicationType;
 
     public String getId() {
         return Id;
@@ -60,4 +62,11 @@ public class UpdatePointsEnvelope {
         isValid = valid;
     }
 
+    public String getCommunicationType() {
+        return communicationType;
+    }
+
+    public void setCommunicationType(String communicationType) {
+        this.communicationType = communicationType;
+    }
 }

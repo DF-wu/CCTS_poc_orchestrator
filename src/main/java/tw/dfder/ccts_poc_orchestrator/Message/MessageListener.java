@@ -35,7 +35,6 @@ public class MessageListener {
     })
     public void receivedMessageFromPayment(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
 //        decode the message
-
         PaymentMessageEnvelope paymentMessageEnvelope = gson.fromJson(msg, PaymentMessageEnvelope.class);
         ch.basicAck(deliveryTag,false);
         System.out.println("receive msg from payment service" + paymentMessageEnvelope);
@@ -46,6 +45,8 @@ public class MessageListener {
             updatePointsEnvelope.setBuyerId(paymentMessageEnvelope.getBuyerId());
             updatePointsEnvelope.setPoints(paymentMessageEnvelope.getTotalAmount());
             updatePointsEnvelope.setValid(true);
+            updatePointsEnvelope.setCommunicationType("request");
+            
             sender.sendMessage(
                     gson.toJson(updatePointsEnvelope),
                     "pointService",
@@ -65,16 +66,16 @@ public class MessageListener {
             RabbitmqConfig.QUEUE_UPDATEPOINT_RESPONSE
     })
     public void receivedMessageFromPointService(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
-        UpdatePointsEnvelope updatePointsEnvelope = gson.fromJson(msg, UpdatePointsEnvelope.class);
+        UpdatePointsEnvelope updatePointsEnvelopeRequest = gson.fromJson(msg, UpdatePointsEnvelope.class);
         ch.basicAck(deliveryTag, false);
-        System.out.println("receive msg from Point service" + updatePointsEnvelope);
+        System.out.println("receive msg from Point service" + updatePointsEnvelopeRequest);
 
         LogMessageEnvelope logMessageEnvelope = new LogMessageEnvelope();
-        if(updatePointsEnvelope.isValid())
+        if(updatePointsEnvelopeRequest.isValid())
         {
-            logMessageEnvelope.setPaymentId(updatePointsEnvelope.getPaymentId());
-            logMessageEnvelope.setBuyerId(updatePointsEnvelope.getBuyerId());
-            logMessageEnvelope.setPoints(updatePointsEnvelope.getPoints());
+            logMessageEnvelope.setPaymentId(updatePointsEnvelopeRequest.getPaymentId());
+            logMessageEnvelope.setBuyerId(updatePointsEnvelopeRequest.getBuyerId());
+            logMessageEnvelope.setPoints(updatePointsEnvelopeRequest.getPoints());
             sender.sendMessage(
                     gson.toJson(logMessageEnvelope),
                     "loggingService",
