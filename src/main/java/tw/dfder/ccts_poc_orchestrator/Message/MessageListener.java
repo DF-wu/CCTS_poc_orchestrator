@@ -16,6 +16,7 @@ import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @EnableRabbit
 @Service("MessageListener")
@@ -46,7 +47,7 @@ public class MessageListener {
             updatePointsEnvelope.setPoints(paymentMessageEnvelope.getTotalAmount());
             updatePointsEnvelope.setValid(true);
             updatePointsEnvelope.setCommunicationType("request");
-            
+
             sender.sendMessage(
                     gson.toJson(updatePointsEnvelope),
                     "pointService",
@@ -66,26 +67,43 @@ public class MessageListener {
             RabbitmqConfig.QUEUE_UPDATEPOINT_RESPONSE
     })
     public void receivedMessageFromPointService(String msg, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel ch) throws IOException {
-        UpdatePointsEnvelope updatePointsEnvelopeRequest = gson.fromJson(msg, UpdatePointsEnvelope.class);
+        UpdatePointsEnvelope updatePointsEnvelope = gson.fromJson(msg, UpdatePointsEnvelope.class);
         ch.basicAck(deliveryTag, false);
-        System.out.println("receive msg from Point service" + updatePointsEnvelopeRequest);
+        System.out.println("receive msg from Point service" + updatePointsEnvelope);
 
-        LogMessageEnvelope logMessageEnvelope = new LogMessageEnvelope();
-        if(updatePointsEnvelopeRequest.isValid())
-        {
-            logMessageEnvelope.setPaymentId(updatePointsEnvelopeRequest.getPaymentId());
-            logMessageEnvelope.setBuyerId(updatePointsEnvelopeRequest.getBuyerId());
-            logMessageEnvelope.setPoints(updatePointsEnvelopeRequest.getPoints());
+        if(updatePointsEnvelope.getCommunicationType() == "success"){
+
+            LogMessageEnvelope logMessageEnvelope = new LogMessageEnvelope();
+            if(updatePointsEnvelope.isValid() && Objects.equals(updatePointsEnvelope.getCommunicationType(), "response"))
+            {
+                logMessageEnvelope.setPaymentId(updatePointsEnvelope.getPaymentId());
+                logMessageEnvelope.setBuyerId(updatePointsEnvelope.getBuyerId());
+                logMessageEnvelope.setPoints(updatePointsEnvelope.getPoints());
+                sender.sendMessage(
+                        gson.toJson(logMessageEnvelope),
+                        "loggingService",
+                        RabbitmqConfig.ROUTING_LOGGING_REQUEST,
+                        ServiceConfig.serviceName
+                );
+                System.out.println("msg sent " + logMessageEnvelope);
+            }else{
+                System.out.println("Fail!! " + logMessageEnvelope);
+            }
+        }else if(updatePointsEnvelope.getCommunicationType() == "rollback"){
+            PaymentMessageEnvelope req = new PaymentMessageEnvelope();
+            req.setMethod("rollback");
+            req.setPaymentId(updatePointsEnvelope.getPaymentId());
+            req.setBuyerId(updatePointsEnvelope.getBuyerId());
+            req.setTotalAmount(updatePointsEnvelope.getPoints());
+            req.setValid(true);
             sender.sendMessage(
-                    gson.toJson(logMessageEnvelope),
+                    gson.toJson(req),
                     "loggingService",
                     RabbitmqConfig.ROUTING_LOGGING_REQUEST,
                     ServiceConfig.serviceName
             );
-            System.out.println("msg sent " + logMessageEnvelope);
-        }else{
-            System.out.println("Fail!! " + logMessageEnvelope);
         }
+
     }
 
 
@@ -99,6 +117,8 @@ public class MessageListener {
 
 
     }
+
+
 
 
 

@@ -12,7 +12,7 @@ public class UpdatePointsEnvelope {
     @Field
     private String paymentId;
     @Field
-    private String BuyerId;
+    private String buyerId;
     @Field
     private int points;
     @Field
@@ -39,11 +39,11 @@ public class UpdatePointsEnvelope {
     }
 
     public String getBuyerId() {
-        return BuyerId;
+        return buyerId;
     }
 
     public void setBuyerId(String buyerId) {
-        BuyerId = buyerId;
+        this.buyerId = buyerId;
     }
 
     public int getPoints() {
