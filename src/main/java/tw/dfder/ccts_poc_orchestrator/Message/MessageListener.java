@@ -39,7 +39,10 @@ public class MessageListener {
         PaymentMessageEnvelope paymentMessageEnvelope = gson.fromJson(msg, PaymentMessageEnvelope.class);
         ch.basicAck(deliveryTag,false);
         System.out.println("receive msg from payment service" + paymentMessageEnvelope);
-        if (paymentMessageEnvelope.isValid()){
+
+        if(paymentMessageEnvelope.getMethod().equals("rollback")) {
+            System.out.println("rollback success. Pid: " + paymentMessageEnvelope.getPaymentId());
+        } else if (paymentMessageEnvelope.isValid()){
             System.out.println("Success!! " + paymentMessageEnvelope);
             UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();
             updatePointsEnvelope.setPaymentId(paymentMessageEnvelope.getPaymentId());
@@ -71,10 +74,10 @@ public class MessageListener {
         ch.basicAck(deliveryTag, false);
         System.out.println("receive msg from Point service" + updatePointsEnvelope);
 
-        if(updatePointsEnvelope.getCommunicationType() == "success"){
+        if(updatePointsEnvelope.getCommunicationType().equals("success")){
 
             LogMessageEnvelope logMessageEnvelope = new LogMessageEnvelope();
-            if(updatePointsEnvelope.isValid() && Objects.equals(updatePointsEnvelope.getCommunicationType(), "response"))
+            if(updatePointsEnvelope.isValid())
             {
                 logMessageEnvelope.setPaymentId(updatePointsEnvelope.getPaymentId());
                 logMessageEnvelope.setBuyerId(updatePointsEnvelope.getBuyerId());
@@ -89,7 +92,7 @@ public class MessageListener {
             }else{
                 System.out.println("Fail!! " + logMessageEnvelope);
             }
-        }else if(updatePointsEnvelope.getCommunicationType() == "rollback"){
+        }else if(updatePointsEnvelope.getCommunicationType().equals("rollback")){
             PaymentMessageEnvelope req = new PaymentMessageEnvelope();
             req.setMethod("rollback");
             req.setPaymentId(updatePointsEnvelope.getPaymentId());
@@ -98,8 +101,8 @@ public class MessageListener {
             req.setValid(true);
             sender.sendMessage(
                     gson.toJson(req),
-                    "loggingService",
-                    RabbitmqConfig.ROUTING_LOGGING_REQUEST,
+                    "paymentService",
+                    RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
                     ServiceConfig.serviceName
             );
         }

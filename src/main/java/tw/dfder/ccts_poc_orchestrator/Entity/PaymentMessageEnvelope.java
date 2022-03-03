@@ -7,7 +7,7 @@ public class PaymentMessageEnvelope {
     @Id
     private String Id;
 
-    // "get", "paid" "rollback"
+    // "get", "pay" "rollback"
     @Field
     String method;
     @Field

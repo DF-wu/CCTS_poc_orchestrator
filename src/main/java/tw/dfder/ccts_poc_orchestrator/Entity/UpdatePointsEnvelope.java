@@ -18,7 +18,7 @@ public class UpdatePointsEnvelope {
     @Field
     private boolean isValid;
 
-    // "request" , "response"
+    // "request" , "success", "fail"
     @Field
     private String communicationType;
 
