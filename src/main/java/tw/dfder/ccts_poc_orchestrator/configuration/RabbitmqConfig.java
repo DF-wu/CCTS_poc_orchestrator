@@ -43,7 +43,6 @@ public class RabbitmqConfig {
     public static final String BINDINGKEY_LOGGING_RESPONSE = "logging.res.#";
 
 
-
     // routing key prefix
     public static final String ROUTING_PAYMENT_REQUEST = "payment.req";
     public static final String ROUTING_PAYMENT_RESPONSE = "payment.res";
@@ -53,6 +52,9 @@ public class RabbitmqConfig {
 
     public static final String ROUTING_LOGGING_REQUEST = "logging.req";
     public static final String ROUTING_LOGGING_RESPONSE = "logging.res";
+
+
+
 
 
     // 宣告topic模式的exchange
@@ -169,5 +171,22 @@ public class RabbitmqConfig {
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 
+
+    /**
+     * EventLog colloection queue
+     */
+    @Bean
+    public Queue queueCCTSEventLog(){
+        // durable == data persistence
+        return new Queue("EventLog",true);
+    }
+
+    @Bean
+    public Binding bindingQueueCCTSEventLog(){
+        return BindingBuilder.bind(queueCCTSEventLog())
+                .to(EXCHANGE_CCTS())
+                .with("#")
+                .noargs();
+    }
 
 }

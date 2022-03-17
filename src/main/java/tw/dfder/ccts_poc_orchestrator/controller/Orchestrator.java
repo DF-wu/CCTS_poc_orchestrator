@@ -20,11 +20,13 @@ public class Orchestrator {
     private final RabbitTemplate rabbitTemplate;
     private final CCTSMessageSender sender;
     private final Gson gson;
+    private final ServiceConfig serviceConfig;
     @Autowired
-    public Orchestrator(RabbitTemplate rabbitTemplate, CCTSMessageSender sender, Gson gson){
+    public Orchestrator(RabbitTemplate rabbitTemplate, CCTSMessageSender sender, Gson gson, ServiceConfig serviceConfig){
         this.rabbitTemplate = rabbitTemplate;
         this.sender = sender;
         this.gson = gson;
+        this.serviceConfig = serviceConfig;
     }
 
     @PostMapping("/start")
@@ -40,7 +42,7 @@ public class Orchestrator {
                 gson.toJson(envelope),
                 "paymentService",
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                ServiceConfig.serviceName
+                serviceConfig.serviceName
         );
         return new ResponseEntity<>(envelope,HttpStatus.OK);
 
@@ -55,9 +57,9 @@ public class Orchestrator {
 
         sender.sendMessage(
                 gson.toJson(paymentMessageEnvelope),
-                ServiceConfig.destinations.get(0),
+                serviceConfig.destinations.get(0),
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                ServiceConfig.serviceName
+                serviceConfig.serviceName
         );
         return new ResponseEntity<>(HttpStatus.OK);
     }

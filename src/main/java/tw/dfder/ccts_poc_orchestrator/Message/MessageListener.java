@@ -16,18 +16,18 @@ import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 
 import java.io.IOException;
-import java.util.Objects;
 
 @EnableRabbit
 @Service("MessageListener")
 public class MessageListener {
     private final Gson gson;
     private final CCTSMessageSender sender;
-
+    private final ServiceConfig serviceConfig;
     @Autowired
-    public MessageListener(Gson gson, CCTSMessageSender sender) {
+    public MessageListener(Gson gson, CCTSMessageSender sender, ServiceConfig serviceConfig) {
         this.gson = gson;
         this.sender = sender;
+        this.serviceConfig = serviceConfig;
     }
 
 
@@ -55,7 +55,7 @@ public class MessageListener {
                     gson.toJson(updatePointsEnvelope),
                     "pointService",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_REQUEST,
-                    ServiceConfig.serviceName
+                    serviceConfig.serviceName
             );
 
         }else {
@@ -86,7 +86,7 @@ public class MessageListener {
                         gson.toJson(logMessageEnvelope),
                         "loggingService",
                         RabbitmqConfig.ROUTING_LOGGING_REQUEST,
-                        ServiceConfig.serviceName
+                        serviceConfig.serviceName
                 );
                 System.out.println("msg sent " + logMessageEnvelope);
             }else{
@@ -103,7 +103,7 @@ public class MessageListener {
                     gson.toJson(req),
                     "paymentService",
                     RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                    ServiceConfig.serviceName
+                    serviceConfig.serviceName
             );
         }
 
