@@ -1,7 +1,7 @@
 server:
-  port: 58080
+  port: 58091
 serviceInfo:
-  name: "Orchestrator"
+  name: Orchestrator
   destinations:
     - paymentService
     - updatePointService
