@@ -8,7 +8,7 @@
 mvn -T 1C clean install -Dmaven.test.skip=true
 echo "build.sh : maven build successfully"
 
-cp ./target/CCTS_poc_orchestrator.jar app.jar
+cp ./target/CCTS_poc_orchestrator-0.0.1.jar app.jar
 echo "build.sh : cp apps from target directory to root directory"
 
 docker build . -t CCTS-poc-orchestrator-image
