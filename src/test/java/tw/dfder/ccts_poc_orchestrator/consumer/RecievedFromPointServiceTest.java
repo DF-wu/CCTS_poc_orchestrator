@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "pointeService", providerType = ProviderType.ASYNCH)
+@PactTestFor(providerName = "pointService", providerType = ProviderType.ASYNCH)
 public class RecievedFromPointServiceTest {
 
 
