@@ -2,12 +2,17 @@ package tw.dfder.ccts_poc_orchestrator.Message;
 
 
 import com.google.gson.Gson;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @EnableRabbit
 @Service("CCTSMessageSender")
@@ -25,6 +30,7 @@ public class CCTSMessageSender {
 //        destination is the corresponding service name
 //        pactName is what the contract of the message belonging for
 
+
         try {
             rabbitTemplate.convertAndSend(
                     RabbitmqConfig.EXCHANG_ORCHESTRATOR,
@@ -35,7 +41,7 @@ public class CCTSMessageSender {
                         m.getMessageProperties().getHeaders().put("destination", destination );
                         m.getMessageProperties().getHeaders().put("pact", pactName);
                         return m;
-                    }
+                        }
             );
             return true;
         } catch (Exception e){
@@ -44,5 +50,6 @@ public class CCTSMessageSender {
             return false;
         }
     }
+
 
 }
