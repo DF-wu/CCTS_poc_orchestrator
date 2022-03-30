@@ -25,6 +25,6 @@
     }
   },
   "provider": {
-    "name": "pointeService"
+    "name": "pointService"
   }
 }
