@@ -41,7 +41,7 @@ public class ToPaymentServiceTest {
     }
 
 
-    @PactVerifyProvider("update point message")
+    @PactVerifyProvider("request payment")
     public MessageAndMetadata verifyMessageOfPayment() {
 
         Gson gson = new Gson();
