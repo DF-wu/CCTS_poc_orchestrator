@@ -46,18 +46,18 @@
 
 
 
-        <!-- https://mvnrepository.com/artifact/au.com.dius.pact/provider -->
+        <!-- https://mvnrepository.com/artifact/au.com.dius.pact.provider/junit5 -->
         <dependency>
-            <groupId>au.com.dius.pact</groupId>
-            <artifactId>provider</artifactId>
+            <groupId>au.com.dius.pact.provider</groupId>
+            <artifactId>junit5</artifactId>
             <version>4.3.6</version>
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/au.com.dius.pact/consumer -->
+        <!-- https://mvnrepository.com/artifact/au.com.dius.pact.consumer/junit5 -->
         <dependency>
-            <groupId>au.com.dius.pact</groupId>
-            <artifactId>consumer</artifactId>
+            <groupId>au.com.dius.pact.consumer</groupId>
+            <artifactId>junit5</artifactId>
             <version>4.3.6</version>
         </dependency>
 
