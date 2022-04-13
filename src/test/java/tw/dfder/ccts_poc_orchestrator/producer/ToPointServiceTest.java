@@ -49,7 +49,7 @@ public class ToPointServiceTest {
     }
 
 
-    @PactVerifyProvider("t-orc-point-01 ")
+    @PactVerifyProvider("t-orc-point-01")
     public MessageAndMetadata verifyMessageForOrder() {
 
         Gson gson = new Gson();
