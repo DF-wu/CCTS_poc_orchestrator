@@ -45,7 +45,7 @@ public class ToPointServiceTest {
     void before(PactVerificationContext context) {
         context.setTarget(new MessageTestTarget());
         System.setProperty("pact.verifier.publishResults", "true");
-        System.setProperty("pact.provider.version", "v0.1");
+        System.setProperty("pact.provider.version", "v0.2");
     }
 
 
