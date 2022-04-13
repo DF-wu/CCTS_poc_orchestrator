@@ -44,7 +44,7 @@ public class ToLoggingServiceTest {
     }
 
 
-    @PactVerifyProvider("request logging")
+    @PactVerifyProvider("t-orc-logging-01")
     public MessageAndMetadata verifyMessageOfPayment() {
 
         Gson gson = new Gson();
@@ -55,8 +55,8 @@ public class ToLoggingServiceTest {
         logMessageEnvelope.setTime(String.valueOf(System.currentTimeMillis()));
 
         HashMap<String, String> props = new HashMap<>();
-        props.put("source", "orchestrator");
-        props.put("destination","loggingService");
+        props.put("provider", "orchestrator");
+        props.put("consumer","loggingService");
         return new MessageAndMetadata(gson.toJson(logMessageEnvelope).getBytes(), props);
     }
 

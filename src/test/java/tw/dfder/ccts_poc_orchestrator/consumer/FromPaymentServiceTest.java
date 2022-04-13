@@ -23,10 +23,10 @@ public class FromPaymentServiceTest {
     @Pact(consumer = "orchestrator")
     public MessagePact validateMessageFromPaymentService(MessagePactBuilder builder) {
         return builder
-                .expectsToReceive("response payment")
+                .expectsToReceive("t-payment-orc-01")
                 .withMetadata(m -> {
-                    m.add("source", "paymentService");
-                    m.add("destination", "orchestrator");
+                    m.add("provider", "paymentService");
+                    m.add("consumer", "orchestrator");
                 })
                 .toPact();
 
@@ -40,8 +40,8 @@ public class FromPaymentServiceTest {
         assertThat(messages).isNotEmpty();
         // 驗header
         messages.forEach(m -> {
-            assertThat(m.getMetadata()).hasFieldOrProperty("source");
-            assertThat(m.getMetadata()).hasFieldOrProperty("destination");
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
         });
 
     }

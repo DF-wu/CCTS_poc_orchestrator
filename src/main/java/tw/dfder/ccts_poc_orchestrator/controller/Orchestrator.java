@@ -42,7 +42,7 @@ public class Orchestrator {
                 gson.toJson(envelope),
                 "paymentService",
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                serviceConfig.serviceName
+                "t-orc-payment-01"
         );
         return new ResponseEntity<>(envelope,HttpStatus.OK);
 

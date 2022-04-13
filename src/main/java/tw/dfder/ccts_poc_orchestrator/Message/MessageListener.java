@@ -55,7 +55,7 @@ public class MessageListener {
                     gson.toJson(updatePointsEnvelope),
                     "pointService",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_REQUEST,
-                    serviceConfig.serviceName
+                    "t-orc-point-01"
             );
 
         }else {
@@ -86,7 +86,7 @@ public class MessageListener {
                         gson.toJson(logMessageEnvelope),
                         "loggingService",
                         RabbitmqConfig.ROUTING_LOGGING_REQUEST,
-                        serviceConfig.serviceName
+                       "t-orc-logging-01"
                 );
                 System.out.println("msg sent " + logMessageEnvelope);
             }else{

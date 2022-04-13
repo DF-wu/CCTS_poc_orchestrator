@@ -41,7 +41,7 @@ public class ToPaymentServiceTest {
     }
 
 
-    @PactVerifyProvider("request payment")
+    @PactVerifyProvider("t-orc-payment-01")
     public MessageAndMetadata verifyMessageOfPayment() {
 
         Gson gson = new Gson();
@@ -53,8 +53,8 @@ public class ToPaymentServiceTest {
         msg.setMethod("request");
 
         HashMap<String, String> props = new HashMap<>();
-        props.put("source", "orchestrator");
-        props.put("destination","paymentService");
+        props.put("provider", "orchestrator");
+        props.put("consumer","paymentService");
         return new MessageAndMetadata(gson.toJson(msg).getBytes(), props);
     }
 

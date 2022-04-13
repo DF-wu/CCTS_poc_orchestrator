@@ -49,7 +49,7 @@ public class ToPointServiceTest {
     }
 
 
-    @PactVerifyProvider("update point message")
+    @PactVerifyProvider("t-orc-point-01 ")
     public MessageAndMetadata verifyMessageForOrder() {
 
         Gson gson = new Gson();
@@ -61,8 +61,8 @@ public class ToPointServiceTest {
         updatePointsEnvelope.setCommunicationType("request");
 
         HashMap<String, String> props = new HashMap<>();
-        props.put("source", "orchestrator");
-        props.put("destination","pointService");
+        props.put("provider", "orchestrator");
+        props.put("consumer","pointService");
         return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
     }
 

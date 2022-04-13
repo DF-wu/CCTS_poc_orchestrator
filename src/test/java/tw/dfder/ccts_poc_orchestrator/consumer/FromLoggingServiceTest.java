@@ -23,10 +23,10 @@ public class FromLoggingServiceTest {
     @Pact(consumer = "orchestrator")
     public MessagePact validateMessageFromLoggingService(MessagePactBuilder builder) {
         return builder
-                .expectsToReceive("response logging")
+                .expectsToReceive("t-logging-orc-01")
                 .withMetadata(m -> {
-                    m.add("source", "loggingService");
-                    m.add("destination", "orchestrator");
+                    m.add("provider", "loggingService");
+                    m.add("consumer", "orchestrator");
                 })
                 .toPact();
 
@@ -40,8 +40,8 @@ public class FromLoggingServiceTest {
         assertThat(messages).isNotEmpty();
         // 驗header
         messages.forEach(m -> {
-            assertThat(m.getMetadata()).hasFieldOrProperty("source");
-            assertThat(m.getMetadata()).hasFieldOrProperty("destination");
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
         });
 
     }

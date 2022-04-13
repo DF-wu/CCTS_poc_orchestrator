@@ -25,7 +25,7 @@ public class CCTSMessageSender {
         this.serviceConfig = serviceConfig;
     }
 
-    public boolean sendMessage(String message, String destination, String routingKey, String pactName){
+    public boolean sendMessage(String message, String destination, String routingKey, String testCaseId){
 //        routingKey : routing key defined in RabbitmqConfig.java
 //        destination is the corresponding service name
 //        pactName is what the contract of the message belonging for
@@ -37,9 +37,9 @@ public class CCTSMessageSender {
                     routingKey,
                     message,
                     m -> {
-                        m.getMessageProperties().getHeaders().put("source", serviceConfig.serviceName);
-                        m.getMessageProperties().getHeaders().put("destination", destination );
-                        m.getMessageProperties().getHeaders().put("pact", pactName);
+                        m.getMessageProperties().getHeaders().put("provider", serviceConfig.serviceName);
+                        m.getMessageProperties().getHeaders().put("consumer", destination );
+                        m.getMessageProperties().getHeaders().put("testCaseId", testCaseId);
                         return m;
                         }
             );
