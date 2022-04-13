@@ -4,15 +4,15 @@
   },
   "messages": [
     {
-      "description": "response update point",
+      "description": "t-point-orc-01",
       "generators": {
         "metadata": {
 
         }
       },
       "metaData": {
-        "destination": "orchestrator",
-        "source": "pointService"
+        "consumer": "orchestrator",
+        "provider": "pointService"
       }
     }
   ],
