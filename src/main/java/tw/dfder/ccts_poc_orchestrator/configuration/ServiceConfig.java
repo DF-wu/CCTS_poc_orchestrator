@@ -1,11 +1,9 @@
 package tw.dfder.ccts_poc_orchestrator.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * To load application.yml setting
@@ -16,19 +14,19 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "serviceinfo")
 public class ServiceConfig {
 //    @Value("${serviceInfo.name}")
-    public String serviceName;
+    public String name;
 //
 //    @Value("${serviceInfo.pact}")
 //    public static String correspondingPact;
 
     public List<String> destinations;
 
-    public String getServiceName() {
-        return serviceName;
+    public String getName() {
+        return name;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<String> getDestinations() {

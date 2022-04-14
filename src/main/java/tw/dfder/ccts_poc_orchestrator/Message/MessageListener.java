@@ -103,7 +103,7 @@ public class MessageListener {
                     gson.toJson(req),
                     "paymentService",
                     RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                    serviceConfig.serviceName
+                    serviceConfig.name
             );
         }
 

@@ -59,7 +59,7 @@ public class Orchestrator {
                 gson.toJson(paymentMessageEnvelope),
                 serviceConfig.destinations.get(0),
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                serviceConfig.serviceName
+                serviceConfig.name
         );
         return new ResponseEntity<>(HttpStatus.OK);
     }
