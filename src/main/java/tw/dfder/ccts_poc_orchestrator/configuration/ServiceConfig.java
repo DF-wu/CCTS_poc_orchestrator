@@ -13,7 +13,7 @@ import java.util.Map;
  * @version v1
  */
 @Configuration
-@ConfigurationProperties(prefix = "serviceInfo")
+@ConfigurationProperties(prefix = "serviceinfo")
 public class ServiceConfig {
 //    @Value("${serviceInfo.name}")
     public String serviceName;

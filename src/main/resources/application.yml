@@ -1,6 +1,6 @@
 server:
   port: 58091
-serviceInfo:
+serviceinfo:
   name: orchestrator
   destinations:
     - paymentService
