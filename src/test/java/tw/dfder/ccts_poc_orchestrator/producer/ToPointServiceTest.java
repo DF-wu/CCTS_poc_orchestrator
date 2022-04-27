@@ -45,12 +45,49 @@ public class ToPointServiceTest {
     void before(PactVerificationContext context) {
         context.setTarget(new MessageTestTarget());
         System.setProperty("pact.verifier.publishResults", "true");
-        System.setProperty("pact.provider.version", "v0.2");
+        System.setProperty("pact.provider.version", "v0.3");
     }
 
 
     @PactVerifyProvider("t-orc-point-01")
     public MessageAndMetadata verifyMessageForOrder() {
+
+        Gson gson = new Gson();
+        UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();
+        updatePointsEnvelope.setPaymentId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setBuyerId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setPoints((int) (Math.random()*1000));
+        updatePointsEnvelope.setValid(true);
+        updatePointsEnvelope.setCommunicationType("request");
+
+        HashMap<String, String> props = new HashMap<>();
+        props.put("provider", "orchestrator");
+        props.put("consumer","pointService");
+        return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
+    }
+
+
+    @PactVerifyProvider("t-orc-point-02")
+    public MessageAndMetadata verifyMessageForOrder02() {
+
+        Gson gson = new Gson();
+        UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();
+        updatePointsEnvelope.setPaymentId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setBuyerId(UUID.randomUUID().toString());
+        updatePointsEnvelope.setPoints((int) (Math.random()*1000));
+        updatePointsEnvelope.setValid(true);
+        updatePointsEnvelope.setCommunicationType("request");
+
+        HashMap<String, String> props = new HashMap<>();
+        props.put("provider", "orchestrator");
+        props.put("consumer","pointService");
+        return new MessageAndMetadata(gson.toJson(updatePointsEnvelope).getBytes(), props);
+    }
+
+
+
+    @PactVerifyProvider("t-orc-point-03")
+    public MessageAndMetadata verifyMessageForOrder03() {
 
         Gson gson = new Gson();
         UpdatePointsEnvelope updatePointsEnvelope = new UpdatePointsEnvelope();

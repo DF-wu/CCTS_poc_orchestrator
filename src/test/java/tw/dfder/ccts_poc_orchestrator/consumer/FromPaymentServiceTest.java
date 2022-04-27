@@ -29,13 +29,35 @@ public class FromPaymentServiceTest {
                     m.add("consumer", "orchestrator");
                 })
                 .toPact();
-
     }
+
+    @Pact(consumer = "orchestrator")
+    public MessagePact validateMessageFromPaymentService02(MessagePactBuilder builder) {
+        return builder
+                .expectsToReceive("t-payment-orc-02")
+                .withMetadata(m -> {
+                    m.add("provider", "paymentService");
+                    m.add("consumer", "orchestrator");
+                })
+                .toPact();
+    }
+
+    @Pact(consumer = "orchestrator")
+    public MessagePact validateMessageFromPaymentService03(MessagePactBuilder builder) {
+        return builder
+                .expectsToReceive("t-payment-orc-03")
+                .withMetadata(m -> {
+                    m.add("provider", "paymentService");
+                    m.add("consumer", "orchestrator");
+                })
+                .toPact();
+    }
+
+
 
     @Test
     @PactTestFor(pactMethod = "validateMessageFromPaymentService")
     public void validateMessageFromPaymentServiceTest(List<Message> messages) {
-
         // 起碼有上面的案例吧
         assertThat(messages).isNotEmpty();
         // 驗header
@@ -43,7 +65,32 @@ public class FromPaymentServiceTest {
             assertThat(m.getMetadata()).hasFieldOrProperty("provider");
             assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
         });
+    }
 
+
+    @Test
+    @PactTestFor(pactMethod = "validateMessageFromPaymentService02")
+    public void validateMessageFromPaymentServiceTest02(List<Message> messages) {
+        // 起碼有上面的案例吧
+        assertThat(messages).isNotEmpty();
+        // 驗header
+        messages.forEach(m -> {
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
+        });
+    }
+
+
+    @Test
+    @PactTestFor(pactMethod = "validateMessageFromPaymentService03")
+    public void validateMessageFromPaymentServiceTest03(List<Message> messages) {
+        // 起碼有上面的案例吧
+        assertThat(messages).isNotEmpty();
+        // 驗header
+        messages.forEach(m -> {
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
+        });
     }
 
 }

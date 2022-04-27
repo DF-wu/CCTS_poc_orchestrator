@@ -30,12 +30,36 @@ public class RecievedFromPointServiceTest {
                     m.add("consumer", "orchestrator");
                 })
                 .toPact();
-
     }
 
+
+
+    @Pact(consumer = "orchestrator")
+    public MessagePact validateReceivedFromPointServiceMessageBuilder02(MessagePactBuilder builder){
+        return builder
+                .expectsToReceive("t-point-orc-02")
+                .withMetadata( m -> {
+                    m.add("provider", "pointService");
+                    m.add("consumer", "orchestrator");
+                })
+                .toPact();
+    }
+
+    @Pact(consumer = "orchestrator")
+    public MessagePact validateReceivedFromPointServiceMessageBuilder03(MessagePactBuilder builder){
+        return builder
+                .expectsToReceive("t-point-orc-03")
+                .withMetadata( m -> {
+                    m.add("provider", "pointService");
+                    m.add("consumer", "orchestrator");
+                })
+                .toPact();
+    }
+
+
     @Test
-    @PactTestFor(pactMethod = "validateReceivedFromPointServiceMessageBuilder")
-    public void validateReceivedFromPointServiceMessageBuilderTest(List<Message> messages){
+    @PactTestFor(pactMethod = "validateReceivedFromPointServiceMessageBuilder02")
+    public void validateReceivedFromPointServiceMessageBuilderTest02(List<Message> messages) {
 
         // 起碼有上面的案例吧
         assertThat(messages).isNotEmpty();
@@ -44,8 +68,20 @@ public class RecievedFromPointServiceTest {
             assertThat(m.getMetadata()).hasFieldOrProperty("provider");
             assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
         });
-
     }
 
+
+    @Test
+    @PactTestFor(pactMethod = "validateReceivedFromPointServiceMessageBuilder03")
+    public void validateReceivedFromPointServiceMessageBuilderTest03(List<Message> messages) {
+
+        // 起碼有上面的案例吧
+        assertThat(messages).isNotEmpty();
+        // 驗header
+        messages.forEach(m -> {
+            assertThat(m.getMetadata()).hasFieldOrProperty("provider");
+            assertThat(m.getMetadata()).hasFieldOrProperty("consumer");
+        });
+    }
 
 }

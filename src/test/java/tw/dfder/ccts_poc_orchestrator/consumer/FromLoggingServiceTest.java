@@ -32,6 +32,8 @@ public class FromLoggingServiceTest {
 
     }
 
+
+
     @Test
     @PactTestFor(pactMethod = "validateMessageFromLoggingService")
     public void validateMessageFromLoggingServiceTest(List<Message> messages) {
