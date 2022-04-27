@@ -5,11 +5,6 @@
   "messages": [
     {
       "description": "t-logging-orc-01",
-      "generators": {
-        "metadata": {
-
-        }
-      },
       "metaData": {
         "consumer": "orchestrator",
         "provider": "loggingService"
