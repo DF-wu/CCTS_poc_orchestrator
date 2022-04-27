@@ -42,7 +42,9 @@ public class Orchestrator {
                 gson.toJson(envelope),
                 "paymentService",
                 RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                "t-orc-payment-01"
+                "t-orc-payment-01",
+                "1"
+
         );
         return new ResponseEntity<>(envelope,HttpStatus.OK);
 
@@ -55,12 +57,6 @@ public class Orchestrator {
         PaymentMessageEnvelope paymentMessageEnvelope = new PaymentMessageEnvelope();
         paymentMessageEnvelope.setPaymentId(pid);
 
-        sender.sendMessage(
-                gson.toJson(paymentMessageEnvelope),
-                serviceConfig.destinations.get(0),
-                RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                serviceConfig.name
-        );
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

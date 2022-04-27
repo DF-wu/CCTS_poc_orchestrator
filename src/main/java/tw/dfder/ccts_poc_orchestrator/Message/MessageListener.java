@@ -16,6 +16,7 @@ import tw.dfder.ccts_poc_orchestrator.configuration.RabbitmqConfig;
 import tw.dfder.ccts_poc_orchestrator.configuration.ServiceConfig;
 
 import java.io.IOException;
+import java.util.Locale;
 
 @EnableRabbit
 @Service("MessageListener")
@@ -41,6 +42,23 @@ public class MessageListener {
         System.out.println("receive msg from payment service" + paymentMessageEnvelope);
 
         if(paymentMessageEnvelope.getMethod().equals("rollback")) {
+            // go to rollback payment
+            PaymentMessageEnvelope rollbackPaymentMessageEnvelope = new PaymentMessageEnvelope();
+            rollbackPaymentMessageEnvelope.setPaymentId(paymentMessageEnvelope.getPaymentId());
+            rollbackPaymentMessageEnvelope.setBuyerId(paymentMessageEnvelope.getBuyerId());
+            rollbackPaymentMessageEnvelope.setMethod("rollback");
+            rollbackPaymentMessageEnvelope.setValid(paymentMessageEnvelope.isValid());
+            rollbackPaymentMessageEnvelope.setTotalAmount(paymentMessageEnvelope.getTotalAmount());
+            sender.sendMessage(
+                    gson.toJson(rollbackPaymentMessageEnvelope),
+                    "paymentService",
+                    RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
+                    "t-orc-payment-02",
+                    "8"
+            );
+            System.out.println("send rollback request success. Pid: " + paymentMessageEnvelope.getPaymentId());
+        }else if( paymentMessageEnvelope.getMethod().equals("rollback res")) {
+            // end rollback
             System.out.println("rollback success. Pid: " + paymentMessageEnvelope.getPaymentId());
         } else if (paymentMessageEnvelope.isValid()){
             System.out.println("Success!! " + paymentMessageEnvelope);
@@ -55,7 +73,8 @@ public class MessageListener {
                     gson.toJson(updatePointsEnvelope),
                     "pointService",
                     RabbitmqConfig.ROUTING_UPDATEPOINT_REQUEST,
-                    "t-orc-point-01"
+                    "t-orc-point-01",
+                    "3"
             );
 
         }else {
@@ -86,7 +105,8 @@ public class MessageListener {
                         gson.toJson(logMessageEnvelope),
                         "loggingService",
                         RabbitmqConfig.ROUTING_LOGGING_REQUEST,
-                       "t-orc-logging-01"
+                       "t-orc-logging-01",
+                        "5"
                 );
                 System.out.println("msg sent " + logMessageEnvelope);
             }else{
@@ -103,8 +123,21 @@ public class MessageListener {
                     gson.toJson(req),
                     "paymentService",
                     RabbitmqConfig.ROUTING_PAYMENT_REQUEST,
-                    serviceConfig.name
+                    "t-orc-payment-03",
+                    "12"
             );
+        }else if(updatePointsEnvelope.getCommunicationType().equals("fail")){
+            updatePointsEnvelope.setCommunicationType("rollback");
+            sender.sendMessage(
+                    gson.toJson(updatePointsEnvelope),
+                    "pointService",
+                    RabbitmqConfig.ROUTING_UPDATEPOINT_REQUEST,
+                    "t-orc-point-02",
+                    "10"
+            );
+
+        }else {
+            System.out.println("exception!!!");
         }
 
     }
